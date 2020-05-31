@@ -7,12 +7,12 @@
 class Obiekty : public sf::Sprite
 {
 public:
-    Obiekty(sf::Texture &baza,std::vector<sf::Vector2f> positions, bool can_S);
+    Obiekty(sf::Texture &baza, bool, int, int);
 private:
     bool can_search = false;
     int gold;
-    float velocity_x;
-    float velocity_y;
+    float velocity_x=200;
+    float velocity_y=0;
 
 
 };

@@ -29,6 +29,7 @@ private:
     float velocity_y;
     std::vector<sf::Texture> Tier;
     int gold = 0;
+
 };
 
 #endif // PLAYER_H
