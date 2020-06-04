@@ -7,15 +7,8 @@ void Player::LoadingTier(sf::Texture &baza)
 {
     Tier.emplace_back(baza);
 }
-void Player::Upgrade()
-{
-    poziom++;
-    velocity_x*=poziom;
-    velocity_y*=poziom;
-};
 void Player::Animate(sf::Time elapsed)
 {
-
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         if(this->getPosition().y>0)

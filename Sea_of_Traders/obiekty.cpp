@@ -9,12 +9,13 @@ Obiekty::Obiekty(sf::Texture &baza, bool can_S, int wx,int wy)
     this->can_search=true;
     gold = rand()%200+50;
     }
-    velocity_x=10;
-    velocity_y=0;
+    velocity_x=wx;
+    velocity_y=wy;
 }
-void Obiekty::animate(sf::Time elapsed)
+void Obiekty::animate(sf::Time elapsed,double poziom)
 {
-    move(velocity_x*elapsed.asSeconds(),velocity_y*elapsed.asSeconds());
+    poziom/=10;
+    move(velocity_x*poziom*elapsed.asSeconds(),velocity_y*poziom*elapsed.asSeconds());
     bounce();
 }
 void Obiekty::bounce()
@@ -38,5 +39,16 @@ void Obiekty::bounce()
     if(object_bounds.top+object_bounds.height > 300)
     {
         velocity_y = -std::abs(velocity_y);
+    }
+}
+bool Obiekty::cansearch()
+{
+    if(this->can_search)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
     }
 }

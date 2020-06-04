@@ -9,7 +9,7 @@
 class New_Level
 {
 public:
-    New_Level(Player &a, std::vector<Obiekty> &p,sf::RenderWindow &program);
+    New_Level(Player &a, std::vector<Obiekty> &p);
 };
 
 #endif // NEW_LEVEL_H
