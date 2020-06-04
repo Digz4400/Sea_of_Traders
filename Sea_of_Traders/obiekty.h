@@ -8,13 +8,13 @@ class Obiekty : public sf::Sprite
 {
 public:
     Obiekty(sf::Texture &baza, bool, int, int);
+    void animate(sf::Time);
+    void bounce();
 private:
     bool can_search = false;
     int gold;
     float velocity_x=200;
     float velocity_y=0;
-
-
 };
 
 #endif // OBIEKTY_H

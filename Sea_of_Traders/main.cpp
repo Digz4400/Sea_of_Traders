@@ -4,91 +4,164 @@
 #include "player.h"
 #include "new_level.h"
 #include "obiekty.h"
-std::vector<Obiekty> loading()
+#include <time.h>
+/*void loading(std::vector<Obiekty> &Elementy)
 {
-    std::vector<Obiekty> Elementy;
     std::cout<<"Loading"<<std::endl;
     sf::Texture p;
-    if (!p.loadFromFile("Wrak.png"))
+    if (!p.loadFromFile("Przeszkody/Wrak.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
     Elementy.push_back(Obiekty(p,true,0,0));
-    if (!p.loadFromFile("KHuge.png"))
+    sf::Texture q;
+    if (!q.loadFromFile("Przeszkody/KHuge.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("KSmall.png"))
+    Elementy.push_back(Obiekty(q,false,0,0));
+    sf::Texture w;
+    if (!w.loadFromFile("Przeszkody/KSmall.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P7x13.png"))
+    Elementy.push_back(Obiekty(w,false,0,0));
+    sf::Texture e;
+    if (!e.loadFromFile("Przeszkody/P7x13.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P7x14.png"))
+    Elementy.push_back(Obiekty(e,false,0,0));
+    sf::Texture r;
+    if (!r.loadFromFile("Przeszkody/P7x14.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P11x12.png"))
+    Elementy.push_back(Obiekty(r,false,0,0));
+    sf::Texture t;
+    if (!t.loadFromFile("Przeszkody/P11x12.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P12x7.png"))
+    Elementy.push_back(Obiekty(t,false,0,0));
+    sf::Texture y;
+    if (!y.loadFromFile("Przeszkody/P12x7.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P14x5.png"))
+    Elementy.push_back(Obiekty(y,false,0,0));
+    sf::Texture u;
+    if (!u.loadFromFile("Przeszkody/P14x5.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P24x7.png"))
+    Elementy.push_back(Obiekty(u,false,0,0));
+    sf::Texture i;
+    if (!i.loadFromFile("Przeszkody/P24x7.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P29x7.png"))
+    Elementy.push_back(Obiekty(i,false,0,0));
+    sf::Texture o;
+    if (!o.loadFromFile("Przeszkody/P29x7.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P31x9.png"))
+    Elementy.push_back(Obiekty(o,false,0,0));
+    sf::Texture b;
+    if (!b.loadFromFile("Przeszkody/P31x9.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
-    if (!p.loadFromFile("P43x9.png"))
+    Elementy.push_back(Obiekty(b,false,0,0));
+    sf::Texture n;
+    if (!n.loadFromFile("Przeszkody/P43x9.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Elementy.push_back(Obiekty(p,false,0,0));
+    Elementy.push_back(Obiekty(n,false,0,0));
     std::cout<<"Loading complite"<<std::endl;
-    return Elementy;
-}
+}*/
 int main()
 {
     sf::RenderWindow program(sf::VideoMode(500, 300), "Sea of Traders");
-    sf::IntRect bounds_program(0,0,program.getSize().x,program.getSize().y);
-    sf::Clock clock;
-    sf::Texture background;
-    std::vector<Obiekty> Elementy=loading();
-    if (!background.loadFromFile("Ocean.png"))
+    std::vector<Obiekty> Elementy;
+    srand(time(NULL));
+    //loading(Elementy);
+    std::cout<<"Loading"<<std::endl;
+    sf::Texture p;
+    if (!p.loadFromFile("Przeszkody/Wrak.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
-        return 1;
     }
-    background.setRepeated(true);
-    sf::Sprite backgroundSprite;
-    backgroundSprite.setTexture(background);
-    backgroundSprite.setScale(1,1);
-    backgroundSprite.setTextureRect(sf::IntRect(0,0,1000,600));
+    Elementy.push_back(Obiekty(p,true,0,0));
+    sf::Texture q;
+    if (!q.loadFromFile("Przeszkody/KHuge.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(q,false,0,0));
+    sf::Texture w;
+    if (!w.loadFromFile("Przeszkody/KSmall.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(w,false,0,0));
+    sf::Texture e;
+    if (!e.loadFromFile("Przeszkody/P7x13.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(e,false,0,0));
+    sf::Texture r;
+    if (!r.loadFromFile("Przeszkody/P7x14.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(r,false,0,0));
+    sf::Texture t;
+    if (!t.loadFromFile("Przeszkody/P11x12.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(t,false,0,0));
+    sf::Texture y;
+    if (!y.loadFromFile("Przeszkody/P12x7.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(y,false,0,0));
+    sf::Texture u;
+    if (!u.loadFromFile("Przeszkody/P14x5.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(u,false,0,0));
+    sf::Texture i;
+    if (!i.loadFromFile("Przeszkody/P24x7.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(i,false,0,0));
+    sf::Texture o;
+    if (!o.loadFromFile("Przeszkody/P29x7.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(o,false,0,0));
+    sf::Texture b;
+    if (!b.loadFromFile("Przeszkody/P31x9.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(b,false,0,0));
+    sf::Texture n;
+    if (!n.loadFromFile("Przeszkody/P43x9.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    Elementy.push_back(Obiekty(n,false,0,0));
+    std::cout<<"Loading complite"<<std::endl;
     sf::Texture statek;
     if (!statek.loadFromFile("StatekTier1.png"))
     {
@@ -96,17 +169,27 @@ int main()
         return 1;
     }
     Player PlayerOne("Alpa",statek);
+    sf::Clock clock;
+    sf::Texture background;
+    if (!background.loadFromFile("Ocean.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    background.setRepeated(true);
+    sf::Sprite backgroundSprite;
+    backgroundSprite.setTexture(background);
+    backgroundSprite.setScale(1,1);
+    backgroundSprite.setTextureRect(sf::IntRect(0,0,1000,600));
+
     sf::Texture startb;
     if (!startb.loadFromFile("StartDoc.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
-        return 1;
     }
     sf::Texture finishb;
     if (!finishb.loadFromFile("FinishDoc.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
-        return 1;
     }
     sf::Sprite start;
     start.setTexture(startb);
@@ -114,7 +197,7 @@ int main()
     sf::Sprite finish;
     finish.setTexture(finishb);
     finish.setPosition(485,0);
-    Elementy[5].setPosition(0,50);
+    New_Level poziom(PlayerOne,Elementy,program);
     while (program.isOpen())
     {
         sf::Time elapsed = clock.restart();
@@ -128,10 +211,25 @@ int main()
         program.draw(backgroundSprite);
         program.draw(start);
         program.draw(finish);
-        program.draw(Elementy[5]);
-        PlayerOne.Animate(elapsed,bounds_program);
+        PlayerOne.Animate(elapsed);
+        for(auto &pi:Elementy)
+        {
+            program.draw(pi);
+        }
+        for(auto &pi:Elementy)
+        {
+            pi.animate(elapsed);
+        }
         program.draw(PlayerOne);
         program.display();
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))
+        {
+            New_Level b(PlayerOne,Elementy,program);
+        }
+        if(finish.getGlobalBounds().intersects(PlayerOne.getGlobalBounds()))
+        {
+            New_Level b(PlayerOne,Elementy,program);
+        }
     }
 
 }

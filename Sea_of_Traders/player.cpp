@@ -13,12 +13,12 @@ void Player::Upgrade()
     velocity_x*=poziom;
     velocity_y*=poziom;
 };
-void Player::Animate(sf::Time elapsed, sf::IntRect program_bounds)
+void Player::Animate(sf::Time elapsed)
 {
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
-        if(this->getPosition().y>program_bounds.top)
+        if(this->getPosition().y>0)
         {
             move(0.0, -(velocity_y*elapsed.asSeconds()));
         }
@@ -30,7 +30,7 @@ void Player::Animate(sf::Time elapsed, sf::IntRect program_bounds)
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        if(this->getPosition().y<program_bounds.height-32)
+        if(this->getPosition().y<300-32)
         {
             move(0.0, (velocity_y*elapsed.asSeconds()));
         }
@@ -42,7 +42,7 @@ void Player::Animate(sf::Time elapsed, sf::IntRect program_bounds)
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
-        if(this->getPosition().x>program_bounds.left)
+        if(this->getPosition().x>0)
         {
          move(-(velocity_x*elapsed.asSeconds()), 0.0);
          }
@@ -54,7 +54,7 @@ void Player::Animate(sf::Time elapsed, sf::IntRect program_bounds)
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-         if(this->getPosition().x<program_bounds.width-32)
+         if(this->getPosition().x<500-32)
          {
             move((velocity_x*elapsed.asSeconds()), 0.0);
           }

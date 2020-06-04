@@ -19,7 +19,7 @@ public:
         setPosition(15,270);
     };
     void Upgrade();
-    void Animate(sf::Time,sf::IntRect);
+    void Animate(sf::Time);
     void LoadingTier(sf::Texture&);
 private:
     std::string name;
