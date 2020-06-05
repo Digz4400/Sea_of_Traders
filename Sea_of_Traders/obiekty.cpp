@@ -12,13 +12,13 @@ Obiekty::Obiekty(sf::Texture &baza, bool can_S, int wx,int wy)
     velocity_x=wx;
     velocity_y=wy;
 }
-void Obiekty::animate(sf::Time elapsed,double poziom)
+void Obiekty::animate(sf::Time elapsed,double poziom, sf::RectangleShape &start)
 {
     poziom/=10;
     move(velocity_x*poziom*elapsed.asSeconds(),velocity_y*poziom*elapsed.asSeconds());
-    bounce();
+    bounce(start);
 }
-void Obiekty::bounce()
+void Obiekty::bounce(sf::RectangleShape &start)
 {
     auto object_bounds = this->getGlobalBounds();
     if(object_bounds.left < 0)
@@ -39,6 +39,11 @@ void Obiekty::bounce()
     if(object_bounds.top+object_bounds.height > 300)
     {
         velocity_y = -std::abs(velocity_y);
+    }
+    if(getGlobalBounds().intersects(start.getGlobalBounds()))
+    {
+        velocity_y = -std::abs(velocity_y);
+        velocity_x = std::abs(velocity_x);
     }
 }
 bool Obiekty::cansearch()

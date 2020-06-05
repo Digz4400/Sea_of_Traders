@@ -85,7 +85,9 @@ int main()
     }
     Baza.push_back(Obiekty(n,false,60,0));
     Elementy=Baza;
-
+    sf::RectangleShape astart(sf::Vector2f(47,40));
+    astart.setFillColor(sf::Color::Green);
+    astart.setPosition(0,268);
     sf::Texture startb;
     if (!startb.loadFromFile("StartDoc.png"))
     {
@@ -139,6 +141,7 @@ int main()
                 program.close();
         }
         program.clear();
+        program.draw(astart);
         program.draw(backgroundSprite);
         program.draw(start);
         program.draw(finish);
@@ -149,7 +152,7 @@ int main()
         }
         for(auto &pi:Elementy)
         {
-            pi.animate(elapsed,level);
+            pi.animate(elapsed,level,astart);
         }
         program.draw(PlayerOne);
         program.display();
@@ -160,7 +163,7 @@ int main()
             {
                 if(p.cansearch())
                 {
-                    //std::cout<<"Zyskujesz pieniadze"<<std::endl;
+                    std::cout<<"Zyskujesz pieniadze"<<std::endl;
                     PlayerOne.addMoney(50);
                     Elementy.erase(Elementy.begin());
                 }

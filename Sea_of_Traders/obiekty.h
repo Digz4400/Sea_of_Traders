@@ -8,8 +8,8 @@ class Obiekty : public sf::Sprite
 {
 public:
     Obiekty(sf::Texture &baza, bool, int, int);
-    void animate(sf::Time,double);
-    void bounce();
+    void animate(sf::Time,double,sf::RectangleShape&);
+    void bounce(sf::RectangleShape &);
     bool cansearch();
 private:
     bool can_search = false;

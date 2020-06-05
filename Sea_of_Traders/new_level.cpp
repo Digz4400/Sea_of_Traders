@@ -7,11 +7,12 @@
 New_Level::New_Level(Player &PlayerOne, std::vector<Obiekty> &p)
 {
     std::cout<<"New Level"<<std::endl;
+    std::cout<<PlayerOne.retrunMoney()<<std::endl;
     PlayerOne.resetLives();
     PlayerOne.setPosition(15,270);
     for(auto &pi:p)
     {
-        int a=rand()%475;
+        int a=rand()%450+50;
         int b=rand()%259+42;
         pi.setPosition(a,b);
         if(pi.cansearch())
