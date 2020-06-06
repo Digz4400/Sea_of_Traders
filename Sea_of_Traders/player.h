@@ -51,7 +51,7 @@ public:
     }
     void LoseMoney(int a)
     {
-        if(gold-a<0)
+        if(gold-a<=0)
         {
             gold = 0;
         }

@@ -85,9 +85,6 @@ int main()
     }
     Baza.push_back(Obiekty(n,false,60,0));
     Elementy=Baza;
-    sf::RectangleShape astart(sf::Vector2f(47,40));
-    astart.setFillColor(sf::Color::Green);
-    astart.setPosition(0,268);
     sf::Texture startb;
     if (!startb.loadFromFile("StartDoc.png"))
     {
@@ -121,10 +118,10 @@ int main()
     sf::Sprite backgroundSprite;
     backgroundSprite.setTexture(background);
     backgroundSprite.setScale(1,1);
-    backgroundSprite.setTextureRect(sf::IntRect(0,0,1000,600));
+    backgroundSprite.setTextureRect(sf::IntRect(0,0,500,300));
     sf::Sprite start;
     start.setTexture(startb);
-    start.setPosition(0,269);
+    start.setPosition(0,260);
     sf::Sprite finish;
     finish.setTexture(finishb);
     finish.setPosition(485,0);
@@ -141,7 +138,6 @@ int main()
                 program.close();
         }
         program.clear();
-        program.draw(astart);
         program.draw(backgroundSprite);
         program.draw(start);
         program.draw(finish);
@@ -152,7 +148,7 @@ int main()
         }
         for(auto &pi:Elementy)
         {
-            pi.animate(elapsed,level,astart);
+            pi.animate(elapsed,level,start);
         }
         program.draw(PlayerOne);
         program.display();

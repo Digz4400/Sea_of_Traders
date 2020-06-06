@@ -12,13 +12,13 @@ Obiekty::Obiekty(sf::Texture &baza, bool can_S, int wx,int wy)
     velocity_x=wx;
     velocity_y=wy;
 }
-void Obiekty::animate(sf::Time elapsed,double poziom, sf::RectangleShape &start)
+void Obiekty::animate(sf::Time elapsed,double poziom, sf::Sprite &start)
 {
     poziom/=10;
     move(velocity_x*poziom*elapsed.asSeconds(),velocity_y*poziom*elapsed.asSeconds());
     bounce(start);
 }
-void Obiekty::bounce(sf::RectangleShape &start)
+void Obiekty::bounce(sf::Sprite &start)
 {
     auto object_bounds = this->getGlobalBounds();
     if(object_bounds.left < 0)
