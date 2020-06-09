@@ -4,6 +4,7 @@
 #include "player.h"
 #include "obiekty.h"
 #include <time.h>
+#include <cstdlib>
 void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, std::vector<Obiekty> &Baza)
 {
 
@@ -49,8 +50,91 @@ void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, std::vector<Ob
             pi.setPosition(a,b);
     }
 }
+void Menu(sf::Sprite &background)
+{
+    sf::RenderWindow menu(sf::VideoMode(500,300),"Menu");
+    sf::Texture button_baza;
+
+    if (!button_baza.loadFromFile("Inne/Button.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    sf::Texture title_baza;
+    if(!title_baza.loadFromFile("Inne/Title.png"))
+    {
+       std::cerr << "Could not load texture" << std::endl;
+    }
+    sf::Texture button2_baza;
+    if(!button2_baza.loadFromFile("Inne/Button2.png"))
+    {
+       std::cerr << "Could not load texture" << std::endl;
+    }
+
+    sf::Sprite button;
+    button.setTexture(button_baza);
+    button.setScale(4,4);
+    button.setPosition(100,156);
+
+    sf::Sprite title;
+    title.setTexture(title_baza);
+    title.setScale(3,3);
+    title.setPosition(136,68);
+
+    sf::Sprite button2;
+    button2.setTexture(button2_baza);
+    button2.setScale(4,4);
+    button2.setPosition(280,156);
+
+    while (menu.isOpen())
+    {
+        sf::Event event;
+        while (menu.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                menu.close();
+        }
+        if (event.type == sf::Event::MouseButtonPressed)
+                    {
+                        if(event.mouseButton.button == sf::Mouse::Left)
+                        {
+                            sf::Vector2i mouse_pos = sf::Mouse::getPosition(menu);
+                            if((mouse_pos.x > button.getGlobalBounds().left)&&(mouse_pos.x < button.getGlobalBounds().left + button.getGlobalBounds().width)&&(mouse_pos.y > button.getGlobalBounds().top)&&(mouse_pos.y < button.getGlobalBounds().top + button.getGlobalBounds().height))
+                            {
+                                menu.close();
+                            }
+                        }
+                        if(event.mouseButton.button == sf::Mouse::Left)
+                        {
+                            sf::Vector2i mouse_pos = sf::Mouse::getPosition(menu);
+                            if((mouse_pos.x > button2.getGlobalBounds().left)&&(mouse_pos.x < button2.getGlobalBounds().left + button2.getGlobalBounds().width)&&(mouse_pos.y > button2.getGlobalBounds().top)&&(mouse_pos.y < button2.getGlobalBounds().top + button2.getGlobalBounds().height))
+                            {
+                                system("Instrukcja.txt");
+                            }
+                        }
+                    }
+        menu.draw(background);
+        menu.draw(title);
+        menu.draw(button);
+        menu.draw(button2);
+        menu.display();
+    }
+}
 int main()
 {
+    sf::Texture background;
+    if (!background.loadFromFile("Ocean.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    background.setRepeated(true);
+    sf::Sprite backgroundSprite;
+    backgroundSprite.setTexture(background);
+    backgroundSprite.setScale(1,1);
+    backgroundSprite.setTextureRect(sf::IntRect(0,0,500,300));
+
+    Menu(backgroundSprite);
+
+
     sf::RenderWindow program(sf::VideoMode(500, 300), "Sea of Traders");
         std::vector<Obiekty> Baza;
     std::vector<Obiekty> Elementy;
@@ -146,11 +230,6 @@ int main()
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    sf::Texture background;
-    if (!background.loadFromFile("Ocean.png"))
-    {
-        std::cerr << "Could not load texture" << std::endl;
-    }
     sf::Texture statek;
     if (!statek.loadFromFile("Stateczki/StatekTier1.png"))
     {
@@ -165,11 +244,6 @@ int main()
     }
     Player PlayerOne("Alpa",statek);
     sf::Clock clock;
-    background.setRepeated(true);
-    sf::Sprite backgroundSprite;
-    backgroundSprite.setTexture(background);
-    backgroundSprite.setScale(1,1);
-    backgroundSprite.setTextureRect(sf::IntRect(0,0,500,300));
     sf::Sprite start;
     start.setTexture(startb);
     start.setPosition(0,260);
@@ -179,6 +253,7 @@ int main()
     New_Level(PlayerOne,Elementy,Baza);
     double level = 1;
     std::cout<<"Loading complite"<<std::endl;
+
     while (program.isOpen())
     {
         sf::Time elapsed = clock.restart();
@@ -190,7 +265,7 @@ int main()
         }
         program.clear();
         program.draw(backgroundSprite);
-        program.draw(pulapka);
+
         program.draw(start);
         program.draw(finish);
         PlayerOne.Animate(elapsed);
@@ -202,6 +277,7 @@ int main()
         {
             pi.animate(elapsed,level,start,pulapka);
         }
+        program.draw(pulapka);
         program.draw(PlayerOne);
         program.display();
         for(auto &p:Elementy)
@@ -225,7 +301,7 @@ int main()
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))
         {
-            PlayerOne.showMoney();
+
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::U))
         {
@@ -238,7 +314,6 @@ int main()
             {
 
             }
-
         }
         if(PlayerOne.getGlobalBounds().intersects(pulapka.getGlobalBounds()))
         {
