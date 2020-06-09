@@ -2,9 +2,53 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "player.h"
-#include "new_level.h"
 #include "obiekty.h"
 #include <time.h>
+void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, std::vector<Obiekty> &Baza)
+{
+
+    /*if(rand()%5==3)
+    {
+        switch (rand()%7)
+        {
+        case 0:{PlayerOne.setWiatr(0,-10);std::cout<<"Masz wiatr N"<<std::endl;break;}
+        case 1:{PlayerOne.setWiatr(10,-10);std::cout<<"Masz wiatr NE"<<std::endl;break;}
+        case 2:{PlayerOne.setWiatr(10,0);std::cout<<"Masz wiatr E"<<std::endl;break;}
+        case 3:{PlayerOne.setWiatr(10,10);std::cout<<"Masz wiatr SE"<<std::endl;break;}
+        case 4:{PlayerOne.setWiatr(0,10);std::cout<<"Masz wiatr S"<<std::endl;break;}
+        case 5:{PlayerOne.setWiatr(-10,10);std::cout<<"Masz wiatr SW"<<std::endl;break;}
+        case 6:{PlayerOne.setWiatr(-10,0);std::cout<<"Masz wiatr W"<<std::endl;break;}
+        case 7:{PlayerOne.setWiatr(-10,-10);std::cout<<"Masz wiatr NW"<<std::endl;break;}
+        }
+    }*/
+    if(rand()%2)
+    {
+        Elementy=Baza;
+    }
+    else
+    {
+        Elementy.clear();
+        Elementy.emplace_back(Baza[0]);
+    for(int i =0;i<rand()%20+10;i++)
+    {
+        Elementy.emplace_back(Baza[1]);
+    }
+    for(int i=0;i<rand()%20+10;i++)
+    {
+        Elementy.emplace_back(Baza[2]);
+    }
+    }
+    //std::cout<<"New Level"<<std::endl;
+    //std::cout<<PlayerOne.retrunMoney()<<std::endl;
+    PlayerOne.resetLives();
+    PlayerOne.resetPosition();
+    for(auto &pi:Elementy)
+    {
+            int a=rand()%450+50;
+            int b=rand()%250+35;
+            pi.setPosition(a,b);
+    }
+}
 int main()
 {
     sf::RenderWindow program(sf::VideoMode(500, 300), "Sea of Traders");
@@ -12,6 +56,14 @@ int main()
     std::vector<Obiekty> Elementy;
     srand(time(NULL));
     std::cout<<"Loading"<<std::endl;
+    sf::Texture we;
+    if (!we.loadFromFile("Przeszkody/KSuperHuge.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
+    sf::Sprite pulapka;
+    pulapka.setTexture(we);
+    pulapka.setPosition(0,0);
     sf::Texture p;
     if (!p.loadFromFile("Przeszkody/Wrak.png"))
     {
@@ -84,7 +136,6 @@ int main()
         std::cerr << "Could not load texture" << std::endl;
     }
     Baza.push_back(Obiekty(n,false,60,0));
-    Elementy=Baza;
     sf::Texture startb;
     if (!startb.loadFromFile("StartDoc.png"))
     {
@@ -125,7 +176,7 @@ int main()
     sf::Sprite finish;
     finish.setTexture(finishb);
     finish.setPosition(485,0);
-    New_Level poziom(PlayerOne,Elementy);
+    New_Level(PlayerOne,Elementy,Baza);
     double level = 1;
     std::cout<<"Loading complite"<<std::endl;
     while (program.isOpen())
@@ -139,6 +190,7 @@ int main()
         }
         program.clear();
         program.draw(backgroundSprite);
+        program.draw(pulapka);
         program.draw(start);
         program.draw(finish);
         PlayerOne.Animate(elapsed);
@@ -148,11 +200,10 @@ int main()
         }
         for(auto &pi:Elementy)
         {
-            pi.animate(elapsed,level,start);
+            pi.animate(elapsed,level,start,pulapka);
         }
         program.draw(PlayerOne);
         program.display();
-
         for(auto &p:Elementy)
         {
             if(p.getGlobalBounds().intersects(PlayerOne.getGlobalBounds()))
@@ -165,7 +216,6 @@ int main()
                 }
                 else
                 {
-                    //std::cout<<"Tracisz pieniadze"<<std::endl;
                     PlayerOne.AddHit();
                     PlayerOne.loseLives();
                     PlayerOne.showLives();
@@ -186,23 +236,30 @@ int main()
             }
             else
             {
-                //std::cout<<"nie stac cie biedaku musisz 1000 złota na to "<<std::endl;
+
             }
 
+        }
+        if(PlayerOne.getGlobalBounds().intersects(pulapka.getGlobalBounds()))
+        {
+            PlayerOne.resetPosition();
         }
         if(finish.getGlobalBounds().intersects(PlayerOne.getGlobalBounds()))
         {
             level ++;
             Elementy=Baza;
             PlayerOne.addMoney(100);
-            New_Level poziom(PlayerOne,Elementy);
-
+            New_Level(PlayerOne,Elementy,Baza);
         }
         if(PlayerOne.returnLives()==0)
         {
             std::cout<<"Przegrales, dziekuje za gre"<<std::endl;
             PlayerOne.ShowStatistic(level);
             return 1;
+        }
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+        {
+            New_Level(PlayerOne,Elementy,Baza);
         }
     }
 

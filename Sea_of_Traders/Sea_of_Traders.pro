@@ -5,7 +5,6 @@ CONFIG -= qt
 INCLUDEPATH += "C:/SFML-2.5.1/include"
 SOURCES += \
         main.cpp \
-        new_level.cpp \
         obiekty.cpp \
         player.cpp
 LIBS += -L"C:/SFML-2.5.1/lib"
@@ -16,7 +15,6 @@ CONFIG(debug, debug|release){
 }
 
 HEADERS += \
-    new_level.h \
     obiekty.h \
     player.h
 

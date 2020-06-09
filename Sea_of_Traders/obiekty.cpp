@@ -12,13 +12,13 @@ Obiekty::Obiekty(sf::Texture &baza, bool can_S, int wx,int wy)
     velocity_x=wx;
     velocity_y=wy;
 }
-void Obiekty::animate(sf::Time elapsed,double poziom, sf::Sprite &start)
+void Obiekty::animate(sf::Time elapsed,double poziom, sf::Sprite &start,sf::Sprite &pulapka)
 {
-    poziom/=10;
+    poziom/=5;
     move(velocity_x*poziom*elapsed.asSeconds(),velocity_y*poziom*elapsed.asSeconds());
-    bounce(start);
+    bounce(start,pulapka);
 }
-void Obiekty::bounce(sf::Sprite &start)
+void Obiekty::bounce(sf::Sprite &start,sf::Sprite &pulapka)
 {
     auto object_bounds = this->getGlobalBounds();
     if(object_bounds.left < 0)
@@ -43,6 +43,11 @@ void Obiekty::bounce(sf::Sprite &start)
     if(getGlobalBounds().intersects(start.getGlobalBounds()))
     {
         velocity_y = -std::abs(velocity_y);
+        velocity_x = std::abs(velocity_x);
+    }
+    if(getGlobalBounds().intersects(pulapka.getGlobalBounds()))
+    {
+        velocity_y = std::abs(velocity_y);
         velocity_x = std::abs(velocity_x);
     }
 }
