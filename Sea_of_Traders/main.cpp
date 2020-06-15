@@ -5,54 +5,54 @@
 #include "obiekty.h"
 #include <time.h>
 #include <cstdlib>
-void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, std::vector<Obiekty> &Baza)
+#include <stdlib.h>
+#include <memory>
+void wait()
 {
-
-    /*if(rand()%5==3)
+    sf::Clock *cl=new sf::Clock;
+    while (cl->getElapsedTime().asSeconds()<0.25)
     {
-        switch (rand()%7)
-        {
-        case 0:{PlayerOne.setWiatr(0,-10);std::cout<<"Masz wiatr N"<<std::endl;break;}
-        case 1:{PlayerOne.setWiatr(10,-10);std::cout<<"Masz wiatr NE"<<std::endl;break;}
-        case 2:{PlayerOne.setWiatr(10,0);std::cout<<"Masz wiatr E"<<std::endl;break;}
-        case 3:{PlayerOne.setWiatr(10,10);std::cout<<"Masz wiatr SE"<<std::endl;break;}
-        case 4:{PlayerOne.setWiatr(0,10);std::cout<<"Masz wiatr S"<<std::endl;break;}
-        case 5:{PlayerOne.setWiatr(-10,10);std::cout<<"Masz wiatr SW"<<std::endl;break;}
-        case 6:{PlayerOne.setWiatr(-10,0);std::cout<<"Masz wiatr W"<<std::endl;break;}
-        case 7:{PlayerOne.setWiatr(-10,-10);std::cout<<"Masz wiatr NW"<<std::endl;break;}
-        }
-    }*/
+
+    }
+    delete cl;
+}
+void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, const std::vector<Obiekty> &Baza)
+{
     if(rand()%2)
     {
-        Elementy=Baza;
+        for(int i=0;i<3;i++)
+        {
+            for(auto &p:Baza)
+            {
+                Elementy.emplace_back(p);
+            }
+        }
     }
     else
     {
-        Elementy.clear();
         Elementy.emplace_back(Baza[0]);
-    for(int i =0;i<rand()%20+10;i++)
-    {
-        Elementy.emplace_back(Baza[1]);
+        for(int i =0;i<rand()%30+20;i++)
+        {
+            Elementy.emplace_back(Baza[1]);
+        }
+        for(int i=0;i<rand()%30+20;i++)
+        {
+            Elementy.emplace_back(Baza[2]);
+        }
     }
-    for(int i=0;i<rand()%20+10;i++)
-    {
-        Elementy.emplace_back(Baza[2]);
-    }
-    }
-    //std::cout<<"New Level"<<std::endl;
-    //std::cout<<PlayerOne.retrunMoney()<<std::endl;
     PlayerOne.resetLives();
     PlayerOne.resetPosition();
     for(auto &pi:Elementy)
     {
-            int a=rand()%450+50;
-            int b=rand()%250+35;
+            int a=rand()%950+50;
+            int b=rand()%550+35;
             pi.setPosition(a,b);
     }
+
 }
 void Menu(sf::Sprite &background)
 {
-    sf::RenderWindow menu(sf::VideoMode(500,300),"Menu");
+    sf::RenderWindow menu(sf::VideoMode(1000,600),"Menu");
     sf::Texture button_baza;
 
     if (!button_baza.loadFromFile("Inne/Button.png"))
@@ -72,18 +72,18 @@ void Menu(sf::Sprite &background)
 
     sf::Sprite button;
     button.setTexture(button_baza);
-    button.setScale(4,4);
-    button.setPosition(100,156);
+    button.setScale(8,8);
+    button.setPosition(210,336);
 
     sf::Sprite title;
     title.setTexture(title_baza);
-    title.setScale(3,3);
-    title.setPosition(136,68);
+    title.setScale(6,6);
+    title.setPosition(272,172);
 
     sf::Sprite button2;
     button2.setTexture(button2_baza);
-    button2.setScale(4,4);
-    button2.setPosition(280,156);
+    button2.setScale(8,8);
+    button2.setPosition(550,336);
 
     while (menu.isOpen())
     {
@@ -119,6 +119,7 @@ void Menu(sf::Sprite &background)
         menu.display();
     }
 }
+
 int main()
 {
     sf::Texture background;
@@ -130,13 +131,10 @@ int main()
     sf::Sprite backgroundSprite;
     backgroundSprite.setTexture(background);
     backgroundSprite.setScale(1,1);
-    backgroundSprite.setTextureRect(sf::IntRect(0,0,500,300));
-
+    backgroundSprite.setTextureRect(sf::IntRect(0,0,1000,600));
     Menu(backgroundSprite);
-
-
-    sf::RenderWindow program(sf::VideoMode(500, 300), "Sea of Traders");
-        std::vector<Obiekty> Baza;
+    sf::RenderWindow program(sf::VideoMode(1000, 600), "Sea of Traders");
+    std::vector<Obiekty> Baza;
     std::vector<Obiekty> Elementy;
     srand(time(NULL));
     std::cout<<"Loading"<<std::endl;
@@ -153,73 +151,73 @@ int main()
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(p,true,0,0));
+    Baza.emplace_back(Obiekty(p,true));
     sf::Texture q;
     if (!q.loadFromFile("Przeszkody/KHuge.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(q,false,0,0));
+    Baza.emplace_back(Obiekty(q,0,0));
     sf::Texture w;
     if (!w.loadFromFile("Przeszkody/KSmall.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(w,false,0,0));
+    Baza.emplace_back(Obiekty(w,0,0));
     sf::Texture e;
     if (!e.loadFromFile("Przeszkody/P7x13.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(e,false,0,30));
+    Baza.emplace_back(Obiekty(e,0,30));
     sf::Texture r;
     if (!r.loadFromFile("Przeszkody/P7x14.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(r,false,0,85));
+    Baza.emplace_back(Obiekty(r,0,85));
     sf::Texture t;
     if (!t.loadFromFile("Przeszkody/P11x12.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(t,false,75,0));
+    Baza.emplace_back(Obiekty(t,75,0));
     sf::Texture y;
     if (!y.loadFromFile("Przeszkody/P12x7.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(y,false,100,0));
+    Baza.emplace_back(Obiekty(y,100,0));
     sf::Texture u;
     if (!u.loadFromFile("Przeszkody/P14x5.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(u,false,85,0));
+    Baza.emplace_back(Obiekty(u,85,0));
     sf::Texture i;
     if (!i.loadFromFile("Przeszkody/P24x7.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(i,false,100,0));
+    Baza.emplace_back(Obiekty(i,100,0));
     sf::Texture o;
     if (!o.loadFromFile("Przeszkody/P29x7.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(o,false,0,50));
+    Baza.emplace_back(Obiekty(o,0,50));
     sf::Texture b;
     if (!b.loadFromFile("Przeszkody/P31x9.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(b,false,0,150));
+    Baza.emplace_back(Obiekty(b,0,150));
     sf::Texture n;
     if (!n.loadFromFile("Przeszkody/P43x9.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
-    Baza.push_back(Obiekty(n,false,60,0));
+    Baza.emplace_back(Obiekty(n,60,0));
     sf::Texture startb;
     if (!startb.loadFromFile("StartDoc.png"))
     {
@@ -242,14 +240,24 @@ int main()
         std::cerr << "Could not load texture" << std::endl;
         return 1;
     }
-    Player PlayerOne("Alpa",statek);
+    sf::Texture serduszka_baza;
+    if (!serduszka_baza.loadFromFile("Inne/full.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+        return 1;
+    }
+    sf::Sprite serduszka;
+    serduszka.setTexture(serduszka_baza);
+    serduszka.setPosition(100,0);
+    serduszka.setScale(2,2);
+    Player PlayerOne(statek);
     sf::Clock clock;
     sf::Sprite start;
     start.setTexture(startb);
-    start.setPosition(0,260);
+    start.setPosition(0,560);
     sf::Sprite finish;
     finish.setTexture(finishb);
-    finish.setPosition(485,0);
+    finish.setPosition(985,0);
     New_Level(PlayerOne,Elementy,Baza);
     double level = 1;
     std::cout<<"Loading complite"<<std::endl;
@@ -279,29 +287,27 @@ int main()
         }
         program.draw(pulapka);
         program.draw(PlayerOne);
+        program.draw(serduszka);
         program.display();
-        for(auto &p:Elementy)
+        auto q=Elementy.begin();
+        for(unsigned int i =0;i<Elementy.size();i++)
         {
-            if(p.getGlobalBounds().intersects(PlayerOne.getGlobalBounds()))
+            if(Elementy[i].getGlobalBounds().intersects(PlayerOne.getGlobalBounds()))
             {
-                if(p.cansearch())
+                if(Elementy[i].cansearch())
                 {
                     std::cout<<"Zyskujesz pieniadze"<<std::endl;
                     PlayerOne.addMoney(50);
-                    Elementy.erase(Elementy.begin());
+                    Elementy.erase(q+i);
                 }
                 else
                 {
                     PlayerOne.AddHit();
                     PlayerOne.loseLives();
                     PlayerOne.showLives();
-                    PlayerOne.setPosition(15,270);
+                    PlayerOne.resetPosition();
                 }
             }
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::P))
-        {
-
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::U))
         {
@@ -322,20 +328,25 @@ int main()
         if(finish.getGlobalBounds().intersects(PlayerOne.getGlobalBounds()))
         {
             level ++;
-            Elementy=Baza;
+            Elementy.clear();
             PlayerOne.addMoney(100);
             New_Level(PlayerOne,Elementy,Baza);
+            wait();
         }
         if(PlayerOne.returnLives()==0)
         {
             std::cout<<"Przegrales, dziekuje za gre"<<std::endl;
             PlayerOne.ShowStatistic(level);
+            std::cout<<"Twoj wynik: "<<PlayerOne.retrunMoney() + level*50 - PlayerOne.returnHit()*100<<std::endl;
             return 1;
         }
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
         {
+            Elementy.clear();
             New_Level(PlayerOne,Elementy,Baza);
+            wait();
         }
+        PlayerOne.hearts(serduszka);
     }
 
 }

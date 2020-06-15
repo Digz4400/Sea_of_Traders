@@ -8,9 +8,8 @@
 class Player : public sf::Sprite
 {
 public:
-    Player(std::string a, sf::Texture &baza);
+    Player(sf::Texture &baza);
     void Animate(sf::Time);
-    void LoadingTier(sf::Texture &baza);
     void addMoney(int a);
     void showMoney();
     void upgrade(sf::Texture &a);
@@ -23,18 +22,18 @@ public:
     void AddHit();
     void showLives();
     void resetPosition();
-    void setWiatr(int a,int b);
+    void hearts(sf::Sprite &);
+    int returnHit();
 private:
     std::string name;
     int lives;
-    float velocity_x;
-    float velocity_y;
+    float velocity_x=0;
+    float velocity_y=0;
     std::vector<sf::Texture> Tier;
     int gold = 0;
-    int lives_max = 3;
+    int lives_max;
     bool afterupgrage = false;
     int iloscUderzonychObiektow;
-    sf::Vector2f wiatr;
 };
 
 #endif // PLAYER_H

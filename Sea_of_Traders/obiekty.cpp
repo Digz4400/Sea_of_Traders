@@ -1,7 +1,17 @@
 #include "obiekty.h"
 #include <time.h>
 #include <cstdlib>
-Obiekty::Obiekty(sf::Texture &baza, bool can_S, int wx,int wy)
+Obiekty::Obiekty(sf::Texture &baza)
+{
+    this->setTexture(baza);
+}
+Obiekty::Obiekty(sf::Texture &baza, int wx,int wy)
+{
+    this->setTexture(baza);
+    velocity_x=wx;
+    velocity_y=wy;
+}
+Obiekty::Obiekty(sf::Texture &baza, bool can_S)
 {
     this->setTexture(baza);
     if(can_S)
@@ -9,8 +19,8 @@ Obiekty::Obiekty(sf::Texture &baza, bool can_S, int wx,int wy)
     this->can_search=true;
     gold = rand()%200+50;
     }
-    velocity_x=wx;
-    velocity_y=wy;
+    velocity_x=0;
+    velocity_y=0;
 }
 void Obiekty::animate(sf::Time elapsed,double poziom, sf::Sprite &start,sf::Sprite &pulapka)
 {
@@ -31,12 +41,12 @@ void Obiekty::bounce(sf::Sprite &start,sf::Sprite &pulapka)
         velocity_y = std::abs(velocity_y);
     }
 
-    if(object_bounds.left+object_bounds.width > 500)
+    if(object_bounds.left+object_bounds.width > 1000)
     {
         velocity_x = -std::abs(velocity_x);
     }
 
-    if(object_bounds.top+object_bounds.height > 300)
+    if(object_bounds.top+object_bounds.height > 600)
     {
         velocity_y = -std::abs(velocity_y);
     }

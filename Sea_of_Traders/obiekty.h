@@ -7,7 +7,9 @@
 class Obiekty : public sf::Sprite
 {
 public:
-    Obiekty(sf::Texture &baza, bool, int, int);
+    Obiekty(sf::Texture&);
+    Obiekty(sf::Texture &, int, int);
+    Obiekty(sf::Texture &, bool);
     void animate(sf::Time,double,sf::Sprite&,sf::Sprite &);
     void bounce(sf::Sprite &,sf::Sprite &);
     bool cansearch();

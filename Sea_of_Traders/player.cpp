@@ -2,14 +2,17 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
-
-void Player::LoadingTier(sf::Texture &baza)
+int Player::returnHit()
 {
-    Tier.emplace_back(baza);
+    return iloscUderzonychObiektow;
+}
+void Player::hearts(sf::Sprite &s)
+{
+    s.setTextureRect(sf::IntRect(0,0,80-16*(lives_max-lives),16));
 }
 void Player::resetPosition()
 {
-    setPosition(15,270);
+    setPosition(15,570);
 }
 void Player::Animate(sf::Time elapsed)
 {
@@ -27,7 +30,7 @@ void Player::Animate(sf::Time elapsed)
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
-        if(this->getPosition().y<300-32)
+        if(this->getPosition().y<600-32)
         {
             move(0, (velocity_y*elapsed.asSeconds()));
         }
@@ -45,13 +48,13 @@ void Player::Animate(sf::Time elapsed)
          }
         else
         {
-            move(0+wiatr.x,0+wiatr.y);
+            move(0,0);
         }
          setTextureRect(sf::IntRect(0,32,32,32));
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
-         if(this->getPosition().x<500-32)
+         if(this->getPosition().x<1000-32)
          {
             move((velocity_x*elapsed.asSeconds()), 0);
           }
@@ -61,22 +64,18 @@ void Player::Animate(sf::Time elapsed)
          }
             setTextureRect(sf::IntRect(64,32,32,32));
     }
-    /*else
-    {
-        move(wiatr.x,wiatr.y);
-    }*/
 }
-Player::Player(std::string a, sf::Texture &baza)
+Player::Player(sf::Texture &baza)
 {
-    name = a;
+
     lives = lives_max;
     velocity_x = 100;
     velocity_y = 100;
     iloscUderzonychObiektow=0;
     setTexture(baza);
     setTextureRect(sf::IntRect(32,32,32,32));
-    setPosition(15,270);
-    wiatr = sf::Vector2f(0,0);
+    setPosition(15,570);
+    lives_max = 5;
 }
 void Player::addMoney(int a)
 {
@@ -151,8 +150,4 @@ void Player::AddHit()
 void Player::showLives()
 {
     std::cout<<"Lives left: "<<lives<<std::endl;
-}
-void Player::setWiatr(int a, int b)
-{
-    wiatr = sf::Vector2f(a,b);
 }
