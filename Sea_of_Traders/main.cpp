@@ -31,24 +31,17 @@ void EndGame(const int &a)
     }
     else
     {
-        std::cout<<"Niestety nie udało ci się pokonac najlepszego wyniku"<<std::endl;
+        std::cout<<"Niestety nie udalo ci sie pokonac najlepszego wyniku"<<std::endl;
         plik.close();
     }
+    system("Pause");
 }
-void wait(sf::Sprite &a,sf::RenderWindow &okno)
-{
-    sf::Clock *cl = new sf::Clock;
-    while (cl->getElapsedTime().asSeconds()<0.25)
-    {
-        okno.draw(a);
-    }
-    delete cl;
-}
+
 void wait()
 {    
     sf::sleep(sf::seconds(0.25));
 }
-void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, const std::vector<Obiekty> &Baza)
+void New_Level( Player &PlayerOne, std::vector<Obiekty> &Elementy, const std::vector<Obiekty> &Baza)
 {
     if(rand()%2)
     {
@@ -63,11 +56,11 @@ void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, const std::vec
     else
     {
         Elementy.emplace_back(Baza[0]);
-        for(int i =0;i<rand()%30+20;i++)
+        for(int i = 0;i<rand()%30+20;i++)
         {
             Elementy.emplace_back(Baza[1]);
         }
-        for(int i=0;i<rand()%30+20;i++)
+        for(int i = 0;i<rand()%30+20;i++)
         {
             Elementy.emplace_back(Baza[2]);
         }
@@ -80,9 +73,8 @@ void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, const std::vec
             int b=rand()%550+35;
             pi.setPosition(a,b);
     }
-
 }
-void Menu(sf::Sprite &background)
+void Menu(const sf::Sprite &background)
 {
     sf::RenderWindow menu(sf::VideoMode(1000,600),"Menu");
     sf::Texture button_baza;
@@ -275,6 +267,17 @@ int main()
         std::cerr << "Could not load texture" << std::endl;
         return 1;
     }
+    sf::Texture upgrade_baza;
+    if (!upgrade_baza.loadFromFile("Inne/Upgrade.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+        return 1;
+    }
+
+    sf::Sprite upgrade;
+    upgrade.setTexture(upgrade_baza);
+    upgrade.setPosition(100,33);
+    upgrade.setScale(2,2);
 
     background.setRepeated(true);
     sf::Sprite backgroundSprite;
@@ -362,6 +365,10 @@ int main()
             }
         }
 
+        if((PlayerOne.retrunMoney()>=1000)&&(PlayerOne.returnUpgrade()==false))
+        {
+            program.draw(upgrade);
+        }
         if(PlayerOne.getGlobalBounds().intersects(pulapka.getGlobalBounds()))
         {
             PlayerOne.resetPosition();

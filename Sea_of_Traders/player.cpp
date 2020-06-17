@@ -2,6 +2,10 @@
 #include <iostream>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+bool Player::returnUpgrade()
+{
+    return this->afterupgrage;
+}
 int Player::returnHit()
 {
     return iloscUderzonychObiektow;

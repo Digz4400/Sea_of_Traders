@@ -23,11 +23,12 @@ public:
     void resetPosition();
     void hearts(sf::Sprite &);
     int returnHit();
+    bool returnUpgrade();
 private:
     std::string name;
     int lives;
-    float velocity_x=0;
-    float velocity_y=0;
+    float velocity_x = 0;
+    float velocity_y = 0;
     int gold = 0;
     int lives_max;
     bool afterupgrage = false;
