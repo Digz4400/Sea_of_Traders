@@ -8,11 +8,24 @@ int Player::returnHit()
 }
 void Player::hearts(sf::Sprite &s)
 {
-    s.setTextureRect(sf::IntRect(0,0,80-16*(lives_max-lives),16));
+    if(afterupgrage)
+    {
+        s.setTextureRect(sf::IntRect(0,0,80-8*(lives_max-lives),16));
+    }
+    else
+    {
+       s.setTextureRect(sf::IntRect(0,0,80-16*(lives_max-lives),16));
+    }
 }
 void Player::resetPosition()
 {
     setPosition(15,570);
+    sf::Clock *cl=new sf::Clock;
+    while (cl->getElapsedTime().asSeconds()<0.25)
+    {
+
+    }
+    delete cl;
 }
 void Player::Animate(sf::Time elapsed)
 {
@@ -26,7 +39,7 @@ void Player::Animate(sf::Time elapsed)
         {
             move(0,0);
         }
-            setTextureRect(sf::IntRect(32,0,32,32));
+        setTextureRect(sf::IntRect(32,0,32,32));
     }
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::S))
     {
@@ -62,7 +75,23 @@ void Player::Animate(sf::Time elapsed)
          {
              move(0,0);
          }
-            setTextureRect(sf::IntRect(64,32,32,32));
+         setTextureRect(sf::IntRect(64,32,32,32));
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    {
+         setTextureRect(sf::IntRect(64,0,32,32));
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D) && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    {
+         setTextureRect(sf::IntRect(64,64,32,32));
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+    {
+         setTextureRect(sf::IntRect(0,64,32,32));
+    }
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A) && sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    {
+         setTextureRect(sf::IntRect(0,0,32,32));
     }
 }
 Player::Player(sf::Texture &baza)
@@ -146,8 +175,4 @@ void Player::ShowStatistic(int level)
 void Player::AddHit()
 {
     iloscUderzonychObiektow++;
-}
-void Player::showLives()
-{
-    std::cout<<"Lives left: "<<lives<<std::endl;
 }

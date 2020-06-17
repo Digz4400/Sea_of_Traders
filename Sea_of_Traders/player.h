@@ -20,7 +20,6 @@ public:
     void resetLives();
     void ShowStatistic(int level);
     void AddHit();
-    void showLives();
     void resetPosition();
     void hearts(sf::Sprite &);
     int returnHit();
@@ -29,7 +28,6 @@ private:
     int lives;
     float velocity_x=0;
     float velocity_y=0;
-    std::vector<sf::Texture> Tier;
     int gold = 0;
     int lives_max;
     bool afterupgrage = false;

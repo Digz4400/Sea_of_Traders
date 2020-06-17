@@ -7,14 +7,46 @@
 #include <cstdlib>
 #include <stdlib.h>
 #include <memory>
-void wait()
+#include <fstream>
+void EndGame(const int &a)
 {
-    sf::Clock *cl=new sf::Clock;
+    std::fstream plik;
+    plik.open("Best.txt",std::ios::in);
+    int line1;
+    std::string nick;
+    plik>>line1;
+    if(line1<a)
+    {
+        plik.close();
+        std::cout<<"Brawo masz nowy najlepszy wynik"<<std::endl;
+        std::cout<<"Wpisz teraz swoj nick: "<<std::endl;
+        std::fstream plik2;
+        getline(std::cin,nick);
+        std::cout<<std::endl;
+        plik2.open("Best.txt",std::ios::trunc|std::ios::out);
+        plik2<<a<<std::endl;
+        plik2<<nick<<std::endl;
+        std::cout<<"Dziekuje za gre"<<std::endl;
+        plik2.close();
+    }
+    else
+    {
+        std::cout<<"Niestety nie udało ci się pokonac najlepszego wyniku"<<std::endl;
+        plik.close();
+    }
+}
+void wait(sf::Sprite &a,sf::RenderWindow &okno)
+{
+    sf::Clock *cl = new sf::Clock;
     while (cl->getElapsedTime().asSeconds()<0.25)
     {
-
+        okno.draw(a);
     }
     delete cl;
+}
+void wait()
+{    
+    sf::sleep(sf::seconds(0.25));
 }
 void New_Level(Player &PlayerOne, std::vector<Obiekty> &Elementy, const std::vector<Obiekty> &Baza)
 {
@@ -54,7 +86,6 @@ void Menu(sf::Sprite &background)
 {
     sf::RenderWindow menu(sf::VideoMode(1000,600),"Menu");
     sf::Texture button_baza;
-
     if (!button_baza.loadFromFile("Inne/Button.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
@@ -91,7 +122,10 @@ void Menu(sf::Sprite &background)
         while (menu.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
+            {
                 menu.close();
+                exit(1);
+            }
         }
         if (event.type == sf::Event::MouseButtonPressed)
                     {
@@ -122,22 +156,17 @@ void Menu(sf::Sprite &background)
 
 int main()
 {
-    sf::Texture background;
-    if (!background.loadFromFile("Ocean.png"))
-    {
-        std::cerr << "Could not load texture" << std::endl;
-    }
-    background.setRepeated(true);
-    sf::Sprite backgroundSprite;
-    backgroundSprite.setTexture(background);
-    backgroundSprite.setScale(1,1);
-    backgroundSprite.setTextureRect(sf::IntRect(0,0,1000,600));
-    Menu(backgroundSprite);
-    sf::RenderWindow program(sf::VideoMode(1000, 600), "Sea of Traders");
+
     std::vector<Obiekty> Baza;
     std::vector<Obiekty> Elementy;
     srand(time(NULL));
     std::cout<<"Loading"<<std::endl;
+
+    sf::Texture background;
+    if (!background.loadFromFile("Inne/Ocean.png"))
+    {
+        std::cerr << "Could not load texture" << std::endl;
+    }
     sf::Texture we;
     if (!we.loadFromFile("Przeszkody/KSuperHuge.png"))
     {
@@ -219,12 +248,12 @@ int main()
     }
     Baza.emplace_back(Obiekty(n,60,0));
     sf::Texture startb;
-    if (!startb.loadFromFile("StartDoc.png"))
+    if (!startb.loadFromFile("Inne/StartDoc.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
     sf::Texture finishb;
-    if (!finishb.loadFromFile("FinishDoc.png"))
+    if (!finishb.loadFromFile("Inne/FinishDoc.png"))
     {
         std::cerr << "Could not load texture" << std::endl;
     }
@@ -246,57 +275,66 @@ int main()
         std::cerr << "Could not load texture" << std::endl;
         return 1;
     }
+
+    background.setRepeated(true);
+    sf::Sprite backgroundSprite;
+    backgroundSprite.setTexture(background);
+    backgroundSprite.setScale(1,1);
+    backgroundSprite.setTextureRect(sf::IntRect(0,0,1000,600));
+
     sf::Sprite serduszka;
     serduszka.setTexture(serduszka_baza);
     serduszka.setPosition(100,0);
     serduszka.setScale(2,2);
+
     Player PlayerOne(statek);
+
     sf::Clock clock;
+
     sf::Sprite start;
     start.setTexture(startb);
     start.setPosition(0,560);
+
     sf::Sprite finish;
     finish.setTexture(finishb);
     finish.setPosition(985,0);
     New_Level(PlayerOne,Elementy,Baza);
+
     double level = 1;
-    std::cout<<"Loading complite"<<std::endl;
+
+    std::cout<<"Loading complite"<<std::endl; 
+
+    Menu(backgroundSprite);
+
+    sf::RenderWindow program(sf::VideoMode(1000, 600), "Sea of Traders");
+
+    sf::Clock *czas = new sf::Clock;
 
     while (program.isOpen())
     {
+        program.clear();
+        program.draw(backgroundSprite);
         sf::Time elapsed = clock.restart();
         sf::Event event;
+
         while (program.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 program.close();
         }
-        program.clear();
-        program.draw(backgroundSprite);
 
-        program.draw(start);
-        program.draw(finish);
-        PlayerOne.Animate(elapsed);
-        for(auto &pi:Elementy)
-        {
-            program.draw(pi);
-        }
         for(auto &pi:Elementy)
         {
             pi.animate(elapsed,level,start,pulapka);
         }
-        program.draw(pulapka);
-        program.draw(PlayerOne);
-        program.draw(serduszka);
-        program.display();
+
         auto q=Elementy.begin();
-        for(unsigned int i =0;i<Elementy.size();i++)
+        for(unsigned int i = 0;i<Elementy.size();i++)
         {
             if(Elementy[i].getGlobalBounds().intersects(PlayerOne.getGlobalBounds()))
             {
                 if(Elementy[i].cansearch())
                 {
-                    std::cout<<"Zyskujesz pieniadze"<<std::endl;
                     PlayerOne.addMoney(50);
                     Elementy.erase(q+i);
                 }
@@ -304,11 +342,13 @@ int main()
                 {
                     PlayerOne.AddHit();
                     PlayerOne.loseLives();
-                    PlayerOne.showLives();
                     PlayerOne.resetPosition();
+                    wait();
                 }
+
             }
         }
+
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::U))
         {
             if(PlayerOne.retrunMoney()>=1000)
@@ -321,10 +361,45 @@ int main()
 
             }
         }
+
         if(PlayerOne.getGlobalBounds().intersects(pulapka.getGlobalBounds()))
         {
             PlayerOne.resetPosition();
         }
+
+        if(PlayerOne.returnLives()==0)
+        {
+            std::cout<<"Przegrales, dziekuje za gre"<<std::endl;
+            program.close();
+            PlayerOne.ShowStatistic(level);
+            int wynik=PlayerOne.retrunMoney() + level*50 - PlayerOne.returnHit()*100 + 10*(czas->getElapsedTime().asSeconds());
+            std::cout<<"Twoj wynik: "<<wynik<<std::endl;
+            EndGame(wynik);
+            return 1;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+        {
+            Elementy.clear();
+            New_Level(PlayerOne,Elementy,Baza);
+            wait();
+        }
+
+        PlayerOne.hearts(serduszka);
+
+        for(auto &pi:Elementy)
+        {
+            program.draw(pi);
+        }
+
+        program.draw(start);
+        program.draw(finish);
+        program.draw(pulapka);
+        program.draw(serduszka);
+        program.draw(PlayerOne);
+
+        PlayerOne.Animate(elapsed);
+
         if(finish.getGlobalBounds().intersects(PlayerOne.getGlobalBounds()))
         {
             level ++;
@@ -333,20 +408,8 @@ int main()
             New_Level(PlayerOne,Elementy,Baza);
             wait();
         }
-        if(PlayerOne.returnLives()==0)
-        {
-            std::cout<<"Przegrales, dziekuje za gre"<<std::endl;
-            PlayerOne.ShowStatistic(level);
-            std::cout<<"Twoj wynik: "<<PlayerOne.retrunMoney() + level*50 - PlayerOne.returnHit()*100<<std::endl;
-            return 1;
-        }
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
-        {
-            Elementy.clear();
-            New_Level(PlayerOne,Elementy,Baza);
-            wait();
-        }
-        PlayerOne.hearts(serduszka);
+
+        program.display();
     }
 
 }

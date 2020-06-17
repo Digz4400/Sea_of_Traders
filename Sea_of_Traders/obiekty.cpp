@@ -33,7 +33,7 @@ void Obiekty::bounce(sf::Sprite &start,sf::Sprite &pulapka)
     auto object_bounds = this->getGlobalBounds();
     if(object_bounds.left < 0)
     {
-        velocity_x = std::abs(velocity_x);
+        this->velocity_x = std::abs(this->velocity_x);
     }
 
     if(object_bounds.top < 0)
