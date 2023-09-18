@@ -1,6 +1,6 @@
 #include <iostream>
-#include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include "player.h"
 #include "obiekty.h"
 #include <time.h>
@@ -415,7 +415,6 @@ int main()
             New_Level(PlayerOne,Elementy,Baza);
             wait();
         }
-
         program.display();
     }
 
